@@ -27,6 +27,12 @@ grades.html: grader/main $(ALLOUTPUTS) $(wildcard data/*.ans)
 $(MAINFILE): $(wildcard code/*.cpp)
 	$(CXX) -o $(MAINFILE) $(MAINFILE).cpp
 
+# One block per algorithm
+# Template for naive algorithm:
+
+# data/naive.%.ans: $(MAINFILE)
+# 	$(MAINFILE) naive < $(@:data/naive.%.ans=data/%.in) > $@
+
 data/naive.%.ans: $(MAINFILE)
 	$(MAINFILE) naive < $(@:data/naive.%.ans=data/%.in) > $@
 	
