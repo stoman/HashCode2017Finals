@@ -8,6 +8,8 @@ only be published after the contest has concluded.
 You can find more information about the contest at
 https://hashcode.withgoogle.com/.
 
+![Logo of Google Hash Code](https://hashcode.withgoogle.com/resources/logo/hashcode_hero.png)
+
 # Technical Data
 
 Almost all code is written in C++. You can run the code by simply starting
