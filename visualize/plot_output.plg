@@ -1,0 +1,34 @@
+stats datafile
+stats datafile2
+
+set print "-"
+
+set output outputname
+set autoscale
+set terminal pngcairo size 3200,1200 enhanced
+
+set offsets 5, 5, 5, 5
+
+# Example palette
+# set palette defined ( 0 '#00ff00', 1 '#ff0000')
+
+# file_exists(file) = system("[ -f '".file."' ] && echo '1' || echo '0'") + 0
+# Example: Rectangles
+# if ( file_exists(datafile2) ) load datafile2
+
+# Example: plot both
+plot datafile u 1:2:3 with points pt 5 palette title "Input", \
+    datafile2 u 1:2:3:4:5 with vectors palette title "Output"
+
+xspan = GPVAL_DATA_X_MAX - GPVAL_DATA_X_MIN
+yspan = GPVAL_DATA_Y_MAX - GPVAL_DATA_Y_MIN
+
+PIXELS_PER_COL = 10
+
+xres = xspan * PIXELS_PER_COL
+yres = yspan * PIXELS_PER_COL
+print xres
+print yres
+
+# set terminal pngcairo size xres, yres enhanced
+# replot

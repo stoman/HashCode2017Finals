@@ -1,0 +1,26 @@
+stats datafile
+
+set print "-"
+
+set output outputname
+set autoscale
+set terminal pngcairo size 3200,640 enhanced
+
+set offsets 5, 5, 5, 5
+
+set palette defined ( 0 '#00ff00', 1 '#ff0000')
+
+plot datafile u 1:2:3 with points pt 5 palette
+
+xspan = GPVAL_DATA_X_MAX - GPVAL_DATA_X_MIN
+yspan = GPVAL_DATA_Y_MAX - GPVAL_DATA_Y_MIN
+
+PIXELS_PER_COL = 10
+
+xres = xspan * PIXELS_PER_COL
+yres = yspan * PIXELS_PER_COL
+print xres
+print yres
+
+# set terminal pngcairo size xres, yres enhanced
+# replot
