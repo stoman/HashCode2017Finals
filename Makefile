@@ -21,7 +21,7 @@ clean:
 grader/main: $(wildcard grader/*.cpp)
 	$(CXX) -o grader/main grader/main.cpp
 
-grades.html: grader/main $(ALLOUTPUTS) $(wildcard data/*.ans)
+grades.html: grader/main $(ALLOUTPUTS)
 	grader/main > grades.html
 
 $(MAINFILE): $(wildcard code/*.cpp)
