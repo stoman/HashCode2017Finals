@@ -44,7 +44,7 @@ int main() {
   while(0 != (file = readdir(datadir))) {
     string ansname = file->d_name;
     if(ansname.size() > 4 && !ansname.compare(ansname.size() - 4, 4, ".ans")) {
-      cerr << "solving file " << ansname << endl;
+      cerr << "grading file " << ansname << "..." << endl;
       string testcase = ansname.substr(ansname.find_first_of(".") + 1, ansname.find_last_of(".") - ansname.find_first_of(".") - 1);
       testcases.insert(testcase);
       string algorithm = ansname.substr(0, ansname.find_first_of("."));
