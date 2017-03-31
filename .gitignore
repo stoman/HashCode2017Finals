@@ -5,6 +5,7 @@
 *.zip
 code/main
 grader/main
+visualize/vis
 grades.html
 
 # Compiled Object files
