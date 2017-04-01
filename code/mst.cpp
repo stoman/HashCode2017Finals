@@ -1,6 +1,7 @@
 #pragma once
 #include "util.cpp"
 #include <limits>
+#include <set>
 
 void addRoute(vector<pair<int,int>> &cables, int from_row, int from_col, int to_row, int to_col)
 {
@@ -28,8 +29,17 @@ void addRoute(vector<pair<int,int>> &cables, int from_row, int from_col, int to_
 	}
 }
 
+/*
+void prim(int br, int bc, vector<pair<int, int>> &cables, 
+	vector<pair<int, int>> routers)
+{
+	routers.push_back(make_pair(br,bc));
+	int from[routers.size()];
+	set<pair<int, int> > pq;
+}*/
+
 //give cells to connect to backbone
-vector<pair<int, int>> mst(Input& input, vector<pair<int, int>>& routers) 
+vector<pair<int, int>> mst(Input& input, vector<pair<int, int>> &routers) 
 {
 	vector<pair<int,int>> cables;
 	int from_row = input.br;
@@ -42,7 +52,9 @@ vector<pair<int, int>> mst(Input& input, vector<pair<int, int>>& routers)
 		from_row = to_row;
 		from_col = to_col;
 	}	
-	return cables;
+	set<pair<int,int>> setCables(cables.begin(), cables.end());
+	vector<pair<int,int>> cablesReturn(setCables.begin(), setCables.end());
+	return cablesReturn;
 }
 
 
