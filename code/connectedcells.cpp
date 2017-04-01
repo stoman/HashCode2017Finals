@@ -21,11 +21,11 @@ void countwalls(Input &input)	{
 	// row 0	
 	for (int j = 1; j < input.w; j++)
 		input.countwalls[0][j] = input.countwalls[0][j-1] + addcell(input,0,j);
-
+	
 	// all other rows
 	for (int i = 1; i < input.h; i++)	{
 		input.countwalls[i][0] = input.countwalls[i-1][0] + addcell(input,i,0);
-		for (int j = 0; j < input.w; j++)	
+		for (int j = 1; j < input.w; j++)	
 			input.countwalls[i][j] = input.countwalls[i-1][j] + input.countwalls[i][j-1] - input.countwalls[i-1][j-1] + addcell(input,i,j);
 	}		
 }
@@ -50,7 +50,7 @@ vector<pair<int, int>> connectedcells(Input& input, pair<int, int>& cell) {
 	// wall as initial cell should automatically return an empty vector
 	//if (input.grid[ci][cj] == '#')
 	//	return cells;
-
+	
 	int rectanglesum = 0;
 	for (int i = max(0,ci-input.r); i <= min(input.h-1,ci+input.r); i++)	{
 		for (int j = max(0,cj-input.r); j <= min(input.w-1,cj+input.r); j++)	{
