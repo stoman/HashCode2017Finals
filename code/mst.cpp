@@ -29,21 +29,56 @@ void addRoute(vector<pair<int,int>> &cables, int from_row, int from_col, int to_
 	}
 }
 
-/*
-void prim(int br, int bc, vector<pair<int, int>> &cables, 
-	vector<pair<int, int>> routers)
-{
-	routers.push_back(make_pair(br,bc));
-	int from[routers.size()];
-	set<pair<int, int> > pq;
-}*/
 
-//give cells to connect to backbone
-vector<pair<int, int>> mst(Input& input, vector<pair<int, int>> &routers) 
+vector<pair<int, int>> prim(int br, int bc, vector<pair<int, int>> routers)
+{
+	vector<pair<int, int>> cables;
+	routers.push_back(make_pair(br,bc));
+	int prev[routers.size()];
+	for (int i = 0; i < routers.size(); ++i)
+		prev[i] = -1;
+	int dist[router.size()];
+	for (int i = 0; i < routers.size(); ++i)
+		dist[i] = numeric_limits<int>::max();
+	dist[routers.size()-1] = 0;
+	set<pair<int, int> > pq;
+	for (int i = 0; i < routers.size(); ++i)
+		pq.insert(make_pair(dist[i], i));
+
+	while (!pq.empty())
+	{
+		int cur = pq.begin().second;
+		pq.erase(pq.begin());
+		dist[cur] = -1;
+		parent = prev[cur];
+		if (parent != -1)
+		{
+			addRoute(cables, routers[parent].first, routers[parent].second, 
+				routers[cur].first, routers[cur].first);
+		}
+		for (int i = 0; i < routers.size(); ++i)
+		{
+			int x_diff = abs(routers[cur].first - routers[i].first);
+			int y_diff = abs(routers[cur].second - routers[i].second);
+			int newDist = max(x_diff, y_diff);
+			if (newDist < dist[i])
+			{
+				pq.erase(make_pair(dist[i],i));
+				pq.insert(make_pair(newDist[i]));
+				dist[i] = newDist;
+				prev[i] = cur;
+			}
+		}
+	}
+	return cables;
+}
+
+
+vector<pair<int, int>> dummyMST(int br, int bc, vector<pair<int, int>> &routers) 
 {
 	vector<pair<int,int>> cables;
-	int from_row = input.br;
-	int from_col = input.bc;
+	int from_row = br;
+	int from_col = bc;
 	for (pair<int,int> &p : routers)
 	{
 		int to_row = p.first;
@@ -54,7 +89,15 @@ vector<pair<int, int>> mst(Input& input, vector<pair<int, int>> &routers)
 	}	
 	set<pair<int,int>> setCables(cables.begin(), cables.end());
 	vector<pair<int,int>> cablesReturn(setCables.begin(), setCables.end());
-	return cablesReturn;
+	return cables;
+}
+
+
+//give cells to connect to backbone
+vector<pair<int, int>> mst(Input& input, vector<pair<int, int>> &routers) 
+{
+	// return dummyMST(input.br, input.bc, routers);
+	return prim(input.br, input.bc, routers);
 }
 
 
