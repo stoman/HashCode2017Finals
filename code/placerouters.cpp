@@ -55,8 +55,8 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 		for(int c = 0; c < input.w; c++) {
 			if (input.grid[r][c] != '#' && score[r][c] > 0) {
 				pair<int, int> coord = make_pair(r, c);
-				prio p = { score.at(r).at(c), 0, coord };
-				// p.sumdist = input.distc.at(r).at(c) + input.distr.at(r).at(c);
+				int sumdist = input.distc.at(r).at(c) + input.distr.at(r).at(c);
+				prio p = { score.at(r).at(c), sumdist, coord };
 				pq.push_back(p);
 			}
 		}
