@@ -29,9 +29,39 @@ void addRoute(vector<pair<int,int>> &cables, int from_row, int from_col, int to_
 	}
 }
 
-
-vector<pair<int, int>> prim(int br, int bc, vector<pair<int, int>> routers)
+void updateDistances(vector<pair<int, int>> &routers, set<pair<int,int>> &pq,
+	vector<int> &dist, vector<int> &prev, int cur, int to)
 {
+	int x_diff = abs(routers[cur].first - routers[to].first);
+	int y_diff = abs(routers[cur].second - routers[to].second);
+	int newDist = max(x_diff, y_diff);
+	if (newDist < dist[to])
+	{
+		pq.erase(make_pair(dist[to],to));
+		dist[to] = newDist;
+		prev[to] = cur;
+		pq.insert(make_pair(dist[to],to));
+	}
+}
+
+void addAdditionalRouters(vector<pair<int, int>> &routers, set<pair<int,int>> &pq,
+	vector<int> &dist, vector<int> &prev, vector<pair<int, int>> &cables, int numRealRouters, 
+	int route_end, int interval)
+{
+	for (int i = route_end; i < cables.size(); i += interval)
+	{
+		dist.push_back(-1);
+		routers.push_back(cables[i]);
+		for (int j = 0; j < numRealRouters; ++j)
+		{
+			updateDistances(routers, pq, dist, prev, routers.size()-1, j);
+		}				
+	}
+}
+
+vector<pair<int, int>> prim(int br, int bc, vector<pair<int, int>> routers, int interval)
+{
+	int numRealRouters = routers.size();
 	vector<pair<int, int>> cables;
 	routers.push_back(make_pair(br,bc));
 	vector<int> prev(routers.size(), -1);
@@ -49,21 +79,15 @@ vector<pair<int, int>> prim(int br, int bc, vector<pair<int, int>> routers)
 		int parent = prev[cur];
 		if (parent != -1)
 		{
+			int route_end = cables.size();
 			addRoute(cables, routers[parent].first, routers[parent].second, 
 				routers[cur].first, routers[cur].second);
+			// add additional routers
+			addAdditionalRouters(routers, pq, dist, prev, cables, numRealRouters, route_end, interval);
 		}
-		for (int i = 0; i < routers.size(); ++i)
+		for (int i = 0; i < numRealRouters; ++i)
 		{
-			int x_diff = abs(routers[cur].first - routers[i].first);
-			int y_diff = abs(routers[cur].second - routers[i].second);
-			int newDist = max(x_diff, y_diff);
-			if (newDist < dist[i])
-			{
-				pq.erase(make_pair(dist[i],i));
-				dist[i] = newDist;
-				prev[i] = cur;
-				pq.insert(make_pair(dist[i],i));
-			}
+			updateDistances(routers, pq, dist, prev, cur, i);
 		}
 	}
 	return cables;
@@ -93,7 +117,7 @@ vector<pair<int, int>> dummyMST(int br, int bc, vector<pair<int, int>> &routers)
 vector<pair<int, int>> mst(Input& input, vector<pair<int, int>> &routers) 
 {
 	// return dummyMST(input.br, input.bc, routers);
-	return prim(input.br, input.bc, routers);
+	return prim(input.br, input.bc, routers,1);
 }
 
 
