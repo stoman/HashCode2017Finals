@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
 	//read input
 	Input input;
 	readInput(input, cin);
+	countwalls(input);
 
 	//read command line args
 	string algorithm = "";
