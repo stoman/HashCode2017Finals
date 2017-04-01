@@ -1,5 +1,5 @@
 //call this script like this to have live scores:
-//while true; do git pull; make -j grades.html; sleep 15; done;
+//while true; do git pull; make -j data; make -j grades.html; sleep 15; done;
 #include <dirent.h>
 #include <fstream>
 #include <iostream>
