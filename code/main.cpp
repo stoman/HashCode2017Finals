@@ -33,12 +33,12 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//print output
-	cout << routers.size() << endl;
-	for(pair<int, int>& cell: routers) {
-		cout << cell.first << " " << cell.second << endl;
-	}
 	cout << backbone.size() << endl;
 	for(pair<int, int>& cell: backbone) {
+		cout << cell.first << " " << cell.second << endl;
+	}
+	cout << routers.size() << endl;
+	for(pair<int, int>& cell: routers) {
 		cout << cell.first << " " << cell.second << endl;
 	}
 };
