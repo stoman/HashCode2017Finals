@@ -60,8 +60,8 @@ vector<pair<int, int>> connectedcells(Input& input, pair<int, int>& cell) {
 		}
 	}
 	
-	cerr << "starting from: " << ci << ' ' << cj;
-	cerr << " can reach " << cells.size() << endl;
+	//cerr << "starting from: " << ci << ' ' << cj;
+	//cerr << " can reach " << cells.size() << endl;
 	//for (auto i : cells)
 	//	cerr << i.first << ' ' << i.second << endl;
 	//cerr << endl;
