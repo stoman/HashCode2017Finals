@@ -1,6 +1,7 @@
 #include "util.cpp"
-#include "part1.cpp"
-#include "part2.cpp"
+#include "mst.cpp"
+#include "connectedcells.cpp"
+#include "placerouters.cpp"
 
 //input/output code
 int main(int argc, char* argv[]) {
@@ -20,8 +21,7 @@ int main(int argc, char* argv[]) {
 	//solve problem
 	cerr << "using algorithm " << algorithm << endl;
 	if(algorithm == "naive") {
-		part1(input);
-		part2(input);
+		//do stuff
 	}
 	else {
 		cerr << "unknown algorithm" << endl;

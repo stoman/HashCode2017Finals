@@ -14,12 +14,9 @@ typedef long long ll;
 using namespace std;
 
 //util classes
-struct SomeClass {
-	int n;
-	SomeClass(int n): n(n) {};
-};
-
 struct Input {
+	int h, w, r, pb, pr, b, br, bc;
+	vector<vector<char>> grid;
 };
 
 //input handling
