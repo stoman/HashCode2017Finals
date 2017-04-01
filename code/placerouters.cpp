@@ -16,12 +16,12 @@ struct prio {
 
 bool compare(const prio& a,const prio& b) {
 
-	int ascore = a.score;// * 4 - a.doubles; 
-	int bscore = b.score;// * 4 - b.doubles; 
+	int ascore = a.score * 10 - a.doubles; 
+	int bscore = b.score * 10 - b.doubles; 
 
 	// score
 	if (ascore != bscore) {
-		return a.score < b.score;
+		return ascore < bscore;
 	}
 
 	if (a.walls != b.walls) {
