@@ -11,15 +11,15 @@ void addRoute(vector<pair<int,int>> &cables, int from_row, int from_col, int to_
 	while (row_diff > 0 || col_diff > 0)
 	{
 		// go down
-		if (from_row < to_row)
+		if (p_row < to_row)
 			p_row++;
-		else if (from_row > to_row)
+		else if (p_row > to_row)
 			p_row--;
 
 		// go right
-		if (from_col < to_col)
+		if (p_col < to_col)
 			p_col++;
-		else if (from_col < to_col)
+		else if (p_col > to_col)
 			p_col--;
 
 		cables.push_back(make_pair(p_row, p_col));
