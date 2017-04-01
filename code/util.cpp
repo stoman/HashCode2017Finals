@@ -17,6 +17,7 @@ using namespace std;
 struct Input {
 	int h, w, r, pb, pr, b, br, bc;
 	vector<vector<char>> grid;
+	vector<vector<int>> countwalls;
 };
 
 //input handling
