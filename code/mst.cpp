@@ -2,7 +2,7 @@
 #include "util.cpp"
 #include <limits>
 
-void addRoute(vector<pair<int,int>> &cables, from_row, from_col, to_row, to_col)
+void addRoute(vector<pair<int,int>> &cables, int from_row, int from_col, int to_row, int to_col)
 {
 	int row_diff = abs(from_row - to_row);
 	int col_diff = abs(from_col - to_col);
@@ -42,6 +42,7 @@ vector<pair<int, int>> mst(Input& input, vector<pair<int, int>>& routers)
 		from_row = to_row;
 		from_col = to_col;
 	}	
+	return cables;
 }
 
 
