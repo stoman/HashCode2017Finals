@@ -2,6 +2,7 @@
 #include "mst.cpp"
 #include "connectedcells.cpp"
 #include "placerouters.cpp"
+#include "runnaive.cpp"
 
 //input/output code
 int main(int argc, char* argv[]) {
@@ -17,11 +18,13 @@ int main(int argc, char* argv[]) {
 	if(argc > 1) {
 		algorithm = argv[1];
 	}
+
+	vector<pair<int, int>> routers, backbone;
 		
 	//solve problem
 	cerr << "using algorithm " << algorithm << endl;
 	if(algorithm == "naive") {
-		//do stuff
+		runnaive(input, routers, backbone);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;
@@ -29,5 +32,11 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//print output
-	//TODO print output
+	cout << routers.size() << endl;
+	for(pair<int, int>& cell: routers) {
+		cout << cell.first << " " << cell.second << endl;
+	}
+	for(pair<int, int>& cell: backbone) {
+		cout << cell.first << " " << cell.second << endl;
+	}
 };
