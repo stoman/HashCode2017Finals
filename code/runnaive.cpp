@@ -154,7 +154,7 @@ void runnaive(Input& input, vector<pair<int, int>>& routers, vector<pair<int, in
 					}
 					countcovered[cell.first][cell.second]--;
 				}
-				int r = 3;
+				int r = 5;
 				vector<pair<int, int>> newpositions;
 				for (int k = -r; k < r; ++k)
 				{
