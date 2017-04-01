@@ -140,6 +140,49 @@ void runnaive(Input& input, vector<pair<int, int>>& routers, vector<pair<int, in
 	}
 	while(routertoaddscore > routertoremovescore);
 
+	//postprocessing level 2
+	bool movedrouter = false;
+ 	for(int i = 0; i < pqrouters.size(); i++) {
+		if(routerisused[i]) {
+			int score = 0;
+			for(pair<int, int>& cell: connectedcells(input, pqrouters[i])) {
+				if(countcovered[cell.first][cell.second] == 1 && input.grid[cell.first][cell.second] == '.') {
+					score++;
+				}
+				countcovered[cell.first][cell.second]--;
+			}
+			vector<pair<int, int>> newpositions = {
+				make_pair(pqrouters[i].first + 1, pqrouters[i].second),
+				make_pair(pqrouters[i].first - 1, pqrouters[i].second),
+				make_pair(pqrouters[i].first, pqrouters[i].second + 1),
+				make_pair(pqrouters[i].first, pqrouters[i].second - 1)
+			};
+			for(pair<int, int>& newpos: newpositions) {
+				if(input.grid[newpos.first][newpos.second] == '#') {
+					continue;
+				}
+				int newscore = 0;
+				for(pair<int, int>& cell: connectedcells(input, newpos)) {
+					if(countcovered[cell.first][cell.second] == 0 && input.grid[cell.first][cell.second] == '.') {
+						newscore++;
+					}
+				}
+				if(newscore > score) {
+					cerr << "we moved router " << i << " one step, yeah!" << endl;
+					pqrouters[i] = newpos;
+					movedrouter = true;
+					break;
+				}
+			}
+			for(pair<int, int>& cell: connectedcells(input, pqrouters[i])) {
+				countcovered[cell.first][cell.second]++;
+			}
+			if(movedrouter) {
+				i--;
+			}
+		}
+	}
+
 	cerr << "runnaive done!" << endl;
 }
 
