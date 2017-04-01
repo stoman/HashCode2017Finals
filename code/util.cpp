@@ -27,7 +27,9 @@ void readInput(Input& input, istream& in) {
     in >> input.pb >> input.pr >> input.b;
     in >> input.br >> input.bc;
 
+	input.grid.resize(input.h);
     for (int r = 0; r < input.h; r++) {
+		input.grid[r].resize(input.w);
         for (int c = 0; c < input.w; c++) {
             in >> input.grid[r][c];       
         }
