@@ -49,7 +49,6 @@ vector<pair<int, int>> connectedcells(Input& input, pair<int, int>& cell) {
 	static vector<bool> was(input.w*input.h,false);
 	
 	// wall as initial cell should automatically return an empty vector
-	
 	if (was[ci*input.w+cj])
 		return allcells[ci*input.w+cj];
 	
