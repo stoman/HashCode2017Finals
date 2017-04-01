@@ -11,7 +11,7 @@ int addcell(Input &input, int i, int j)	{
 // call before calling connectedcells
 void countwalls(Input &input)	{
 
-	input.countwalls.resize(input.h)
+	input.countwalls.resize(input.h);
 	for (int i = 0; i < input.h; i++)
 		input.countwalls[i].resize(input.w);
 		
@@ -56,7 +56,7 @@ vector<pair<int, int>> connectedcells(Input& input, pair<int, int>& cell) {
 		for (int j = max(0,cj-input.r); j <= min(input.w-1,cj+input.r); j++)	{
 			rectanglesum = getrectanglesum(input,min(i,ci),min(j,cj),max(i,ci),max(j,cj)); 
 			if (rectanglesum == 0)
-				cells.push_back(i,j);
+				cells.push_back({i,j});
 		}
 	}
 	return cells;
