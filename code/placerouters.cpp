@@ -3,6 +3,7 @@
 #include <queue>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 //give a list of routers to place, order by priority in descending order
 vector<pair<int, int>> placerouters(Input& input) {
@@ -20,21 +21,22 @@ vector<pair<int, int>> placerouters(Input& input) {
 	}
 
 	//compute routers
-	vector<pair<int&, pair<int, int>>> pq;//score, cell
+	vector<pair<reference_wrapper<int>, pair<int, int>>> pq;//score, cell
 	vector<pair<int, int>> routers;
 	vector<vector<bool>> covered(input.h, vector<bool>(input.w, false));
 
 	//fill pq with . or - cells with a score
 	for(int r = 0; r < input.h; r++) {
 		for(int c = 0; c < input.w; c++) {
-			if (input.grid[r][c] != "#" && score[r][c] > 0) {
+			if (input.grid[r][c] != '#' && score[r][c] > 0) {
 				pair<int, int> coord = make_pair(r, c);
-				pair<int&, pair<int, int>> tup = make_pair(score.at(r).at(c), coord);
-				pq.push_back(pq);
+				reference_wrapper<int> ref = score.at(r).at(c);
+				pair<reference_wrapper<int>, pair<int, int>> tup = make_pair(ref, coord);
+				pq.push_back(tup);
 			}
 		}
 	}
-	make_heap(pq.begin(), pq.end())
+	make_heap(pq.begin(), pq.end());
 
 	//loop until best score 0
 	while(!pq.empty() && pq.front().first > 0) {
@@ -54,7 +56,7 @@ vector<pair<int, int>> placerouters(Input& input) {
 				}
 			}
 		}
-		make_heap(vec.begin(), vec.end());
+		make_heap(pq.begin(), pq.end());
 	}
 
 	return routers;
