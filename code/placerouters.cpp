@@ -5,17 +5,26 @@
 #include <algorithm>
 #include <functional>
 
+
 struct prio {
 	reference_wrapper<int> score;
+	reference_wrapper<int> walls;
 	int sumdist;
 	pair<int, int> coord;
 };
 
 bool compare(const prio& a,const prio& b) {
 
+	int ascore = a.score; 
+	int bscore = a.score; 
+
 	// score
 	if (a.score != b.score) {
 		return a.score < b.score;
+	}
+
+	if (a.walls != b.walls) {
+		return a.walls < b.walls;
 	}
 
 	if (a.sumdist != b.sumdist) {
@@ -30,10 +39,39 @@ bool compare(const prio& a,const prio& b) {
     return a.coord.second > b.coord.second;
 }
 
+bool haswalls(Input& input, vector<vector<bool>>& covered, int r, int c) {
+	pair<int, int> one = make_pair(0, 1);
+	pair<int, int> two = make_pair(1, 0);
+	pair<int, int> three = make_pair(-1, 0);
+	pair<int, int> four = make_pair(0, -1);
+	vector<pair<int, int>> dirs { one, two, three, four };
+
+	for (auto& d : dirs) {
+		int newr = r + d.first;
+		int newc = c + d.second;
+		if (0 < newr && newr < input.h && 0 < newc && newc < input.w && (input.grid.at(newr).at(newc) == '#' || covered.at(newr).at(newc) )) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void updatewalls(Input& input, vector<vector<int>>& walls, vector<vector<bool>>& covered, int r, int c) {
+	pair<int, int> p = make_pair(r, c);
+	int sum = 0;
+	for (pair<int, int>& cell: connectedcells(input, p)) {
+		if (haswalls(input, covered, cell.first, cell.second)) {
+			sum++;
+		}
+	}
+	walls.at(r).at(c) = sum;
+}
+
 //give a list of routers to place, order by priority in descending order
 vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 	//compute scores
 	vector<vector<int>> score(input.h, vector<int>(input.w, 0));
+
 	for(int r = 0; r < input.h; r++) {
 		for(int c = 0; c < input.w; c++) {
 			pair<int, int> p = make_pair(r, c);
@@ -45,10 +83,18 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 		}
 	}
 
+	vector<vector<bool>> covered(input.h, vector<bool>(input.w, false));
+	vector<vector<int>> walls(input.h, vector<int>(input.w, 0));
+	// init walls
+	for (int r = 0; r < input.h; r++) {
+		for (int c = 0; c < input.w; c++) {
+			updatewalls(input, walls, covered, r, c);
+		}
+	}
+
 	//compute routers
 	vector<prio> pq;//score, cell
 	vector<pair<int, int>> routers;
-	vector<vector<bool>> covered(input.h, vector<bool>(input.w, false));
 
 	//fill pq with . or - cells with a score
 	for(int r = 0; r < input.h; r++) {
@@ -56,7 +102,7 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 			if (input.grid[r][c] != '#' && score[r][c] > 0) {
 				pair<int, int> coord = make_pair(r, c);
 				int sumdist = input.distc.at(r).at(c) + input.distr.at(r).at(c);
-				prio p = { score.at(r).at(c), sumdist, coord };
+				prio p = { score.at(r).at(c), walls.at(r).at(c), sumdist, coord };
 				pq.push_back(p);
 			}
 		}
@@ -82,6 +128,14 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 				}
 			}
 		}
+
+		// update walls in 2r
+		for (int r = max(0, tup.coord.first - 3 * input.r); r < min(input.h, tup.coord.first + 3 * input.r); r++) {
+			for (int c = max(0, tup.coord.second - 3 * input.r); c < min(input.w, tup.coord.second + 3 * input.r); c++) {
+				updatewalls(input, walls, covered, r, c);
+			}
+		}
+
 		make_heap(pq.begin(), pq.end(), compare);
 	}
 
