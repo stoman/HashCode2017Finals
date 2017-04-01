@@ -47,7 +47,7 @@ void runnaive(Input& input, vector<pair<int, int>>& routers, vector<pair<int, in
 
 	//TODO if hi == lo + 1: which to take?
 	int res = lo;
-	if(lo + 1 < pqrouters.size() && score_this_try(input, pqrouters, lo+1, scores) > score_this_try(input, pqrouters, lo, scores)) {
+	if(lo + 1 <= pqrouters.size() && score_this_try(input, pqrouters, lo+1, scores) > score_this_try(input, pqrouters, lo, scores)) {
 		res = lo + 1;
 	}
 	cerr << "Let's use " << res << " routers, sounds good..." << endl;
