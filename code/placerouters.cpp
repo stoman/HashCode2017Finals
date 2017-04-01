@@ -119,6 +119,7 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 
 		routers.push_back(tup.coord);
 		scores.push_back(tup.score);
+				cerr << "PQ places router at " << tup.coord.first << ", " << tup.coord.second <<endl;
 		for (pair<int, int>& cell : connectedcells(input, tup.coord)) {
 			if (!covered.at(cell.first).at(cell.second)) {
 				covered.at(cell.first).at(cell.second) = true;
