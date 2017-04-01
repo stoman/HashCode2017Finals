@@ -7,12 +7,14 @@ void runnaive(Input& input, vector<pair<int, int>>& routers, vector<pair<int, in
 	//place routers
 	cerr << "starting placerouters..." << endl;
 	vector<pair<int, int>> pqrouters = placerouters(input);
+	if(pqrouters.size() == 0) return;
 
 	//binary search
-	cerr << "binary saearching number of routers..." << endl;
-	int lo = 1, hi = routers.size();
+	cerr << "binary searching number of routers..." << endl;
+	int lo = 1, hi = pqrouters.size();
 	while(hi - lo > 1) {
 		int mid = (hi + lo) / 2;
+		cerr << "trying " << mid << "..." << endl;
 		vector<pair<int, int>> routersused(&pqrouters[0], &pqrouters[mid - 1]);
 		backbone = mst(input, routersused);
 		if(backbone.size() * input.pb + mid * input.pr <= input.b) {
