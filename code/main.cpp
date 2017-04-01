@@ -12,8 +12,9 @@ int main(int argc, char* argv[]) {
 	//read input
 	Input input;
 	readInput(input, cin);
+	computedistances(input);
 	countwalls(input);
-
+	
 	//read command line args
 	string algorithm = "";
 	if(argc > 1) {
