@@ -1,1 +1,27 @@
-fill me
+charleston
+    240 x 180 grid
+    10 radius
+    1 Pb price/connect
+    100 Pr price/router
+    29907 budget
+
+higher
+    872 x 975 grid
+    5 radius
+    5 cost connect
+    100 cost router
+    2654677 budget
+
+opera
+    667 x 540 grid
+    7 radius
+    1 cost connect
+    100 cost router
+    94860 budget
+
+rue de londres
+    559 x 404 grid
+    10 radius
+    1 cost connect
+    100 cost router
+    21634 budget
