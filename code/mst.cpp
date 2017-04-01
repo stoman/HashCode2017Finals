@@ -34,23 +34,19 @@ vector<pair<int, int>> prim(int br, int bc, vector<pair<int, int>> routers)
 {
 	vector<pair<int, int>> cables;
 	routers.push_back(make_pair(br,bc));
-	int prev[routers.size()];
-	for (int i = 0; i < routers.size(); ++i)
-		prev[i] = -1;
-	int dist[router.size()];
-	for (int i = 0; i < routers.size(); ++i)
-		dist[i] = numeric_limits<int>::max();
+	vector<int> prev(routers.size(), -1);
+	vector<int> dist(routers.size(), numeric_limits<int>::max());
 	dist[routers.size()-1] = 0;
+
 	set<pair<int, int> > pq;
 	for (int i = 0; i < routers.size(); ++i)
 		pq.insert(make_pair(dist[i], i));
-
 	while (!pq.empty())
 	{
-		int cur = pq.begin().second;
+		int cur = pq.begin()->second;
 		pq.erase(pq.begin());
 		dist[cur] = -1;
-		parent = prev[cur];
+		int parent = prev[cur];
 		if (parent != -1)
 		{
 			addRoute(cables, routers[parent].first, routers[parent].second, 
@@ -64,9 +60,9 @@ vector<pair<int, int>> prim(int br, int bc, vector<pair<int, int>> routers)
 			if (newDist < dist[i])
 			{
 				pq.erase(make_pair(dist[i],i));
-				pq.insert(make_pair(newDist[i]));
 				dist[i] = newDist;
 				prev[i] = cur;
+				pq.insert(make_pair(dist[i],i));
 			}
 		}
 	}
