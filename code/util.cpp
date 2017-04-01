@@ -23,4 +23,13 @@ struct Input {
 //input handling
 void readInput(Input& input, istream& in) {
 	//TODO read input
+    in >> input.h >> input.w >> input.r;
+    in >> input.pb >> input.pr >> input.b;
+    in >> input.br >> input.bc;
+
+    for (int r = 0; r < input.h; r++) {
+        for (int c = 0; c < input.w; c++) {
+            in >> input.grid[r][c];       
+        }
+    }
 }
