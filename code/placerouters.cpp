@@ -9,17 +9,18 @@
 struct prio {
 	reference_wrapper<int> score;
 	reference_wrapper<int> walls;
+	reference_wrapper<int> doubles;
 	int sumdist;
 	pair<int, int> coord;
 };
 
 bool compare(const prio& a,const prio& b) {
 
-	int ascore = a.score; 
-	int bscore = a.score; 
+	int ascore = a.score * 10 - a.doubles; 
+	int bscore = b.score * 10 - b.doubles; 
 
 	// score
-	if (a.score != b.score) {
+	if (ascore != bscore) {
 		return a.score < b.score;
 	}
 
@@ -96,13 +97,15 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 	vector<prio> pq;//score, cell
 	vector<pair<int, int>> routers;
 
+	vector<vector<int>> doubles(input.h, vector<int>(input.w, 0));
+
 	//fill pq with . or - cells with a score
 	for(int r = 0; r < input.h; r++) {
 		for(int c = 0; c < input.w; c++) {
 			if (input.grid[r][c] != '#' && score[r][c] > 0) {
 				pair<int, int> coord = make_pair(r, c);
 				int sumdist = input.distc.at(r).at(c) + input.distr.at(r).at(c);
-				prio p = { score.at(r).at(c), walls.at(r).at(c), sumdist, coord };
+				prio p = { score.at(r).at(c), walls.at(r).at(c), doubles.at(r).at(c), sumdist, coord };
 				pq.push_back(p);
 			}
 		}
@@ -126,6 +129,7 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 
 				for (pair<int, int>& cell2 : connectedcells(input, cell)) {
 					score.at(cell2.first).at(cell2.second)--;
+					doubles.at(cell2.first).at(cell2.second)++;
 				}
 			}
 		}
