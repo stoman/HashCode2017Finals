@@ -6,7 +6,7 @@
 #include <functional>
 
 //give a list of routers to place, order by priority in descending order
-vector<pair<int, int>> placerouters(Input& input) {
+vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 	//compute scores
 	vector<vector<int>> score(input.h, vector<int>(input.w, 0));
 	for(int r = 0; r < input.h; r++) {
@@ -47,6 +47,7 @@ vector<pair<int, int>> placerouters(Input& input) {
 		pq.pop_back();
 
 		routers.push_back(tup.second);
+		scores.push_back(tup.first);
 		for (pair<int, int>& cell : connectedcells(input, tup.second)) {
 			if (!covered.at(cell.first).at(cell.second)) {
 				covered.at(cell.first).at(cell.second) = true;

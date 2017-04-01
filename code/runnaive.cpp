@@ -6,7 +6,8 @@
 void runnaive(Input& input, vector<pair<int, int>>& routers, vector<pair<int, int>>& backbone) {
 	//place routers
 	cerr << "starting placerouters..." << endl;
-	vector<pair<int, int>> pqrouters = placerouters(input);
+	vector<int> scores;
+	vector<pair<int, int>> pqrouters = placerouters(input, scores);
 	if(pqrouters.size() == 0) return;
 
 	//binary search
