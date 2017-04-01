@@ -5,6 +5,31 @@
 #include <algorithm>
 #include <functional>
 
+struct prio {
+	reference_wrapper<int> score;
+	int sumdist;
+	pair<int, int> coord;
+};
+
+bool compare(const prio& a,const prio& b) {
+
+	// score
+	if (a.score != b.score) {
+		return a.score < b.score;
+	}
+
+	if (a.sumdist != b.sumdist) {
+		return a.sumdist < b.sumdist;
+	}
+
+	// x
+	if (a.coord.first < b.coord.first) {
+		return a.coord.first < b.coord.first;
+	}
+
+    return a.coord.second < b.coord.second;
+}
+
 //give a list of routers to place, order by priority in descending order
 vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 	//compute scores
@@ -21,7 +46,7 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 	}
 
 	//compute routers
-	vector<pair<reference_wrapper<int>, pair<int, int>>> pq;//score, cell
+	vector<prio> pq;//score, cell
 	vector<pair<int, int>> routers;
 	vector<vector<bool>> covered(input.h, vector<bool>(input.w, false));
 
@@ -30,25 +55,25 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 		for(int c = 0; c < input.w; c++) {
 			if (input.grid[r][c] != '#' && score[r][c] > 0) {
 				pair<int, int> coord = make_pair(r, c);
-				reference_wrapper<int> ref = score.at(r).at(c);
-				pair<reference_wrapper<int>, pair<int, int>> tup = make_pair(ref, coord);
-				pq.push_back(tup);
+				prio p = { score.at(r).at(c), 0, coord };
+				// p.sumdist = input.distc.at(r).at(c) + input.distr.at(r).at(c);
+				pq.push_back(p);
 			}
 		}
 	}
-	make_heap(pq.begin(), pq.end());
+	make_heap(pq.begin(), pq.end(), compare);
 
 	//loop until best score 0
-	while(!pq.empty() && pq.front().first > 0) {
+	while(!pq.empty() && pq.front().score > 0) {
 		//move best cell from `pq` to `routers`
 		//update covered, scores, pq
-		pair<int, pair<int, int>> tup = pq.front();
-		pop_heap(pq.begin(), pq.end());
+		prio tup = pq.front();
+		pop_heap(pq.begin(), pq.end(), compare);
 		pq.pop_back();
 
-		routers.push_back(tup.second);
-		scores.push_back(tup.first);
-		for (pair<int, int>& cell : connectedcells(input, tup.second)) {
+		routers.push_back(tup.coord);
+		scores.push_back(tup.score);
+		for (pair<int, int>& cell : connectedcells(input, tup.coord)) {
 			if (!covered.at(cell.first).at(cell.second)) {
 				covered.at(cell.first).at(cell.second) = true;
 
@@ -57,7 +82,7 @@ vector<pair<int, int>> placerouters(Input& input, vector<int>& scores) {
 				}
 			}
 		}
-		make_heap(pq.begin(), pq.end());
+		make_heap(pq.begin(), pq.end(), compare);
 	}
 
 	return routers;
