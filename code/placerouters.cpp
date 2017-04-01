@@ -19,15 +19,15 @@ bool compare(const prio& a,const prio& b) {
 	}
 
 	if (a.sumdist != b.sumdist) {
-		return a.sumdist < b.sumdist;
+		return a.sumdist > b.sumdist;
 	}
 
 	// x
-	if (a.coord.first < b.coord.first) {
-		return a.coord.first < b.coord.first;
+	if (a.coord.first != b.coord.first) {
+		return a.coord.first > b.coord.first;
 	}
 
-    return a.coord.second < b.coord.second;
+    return a.coord.second > b.coord.second;
 }
 
 //give a list of routers to place, order by priority in descending order
