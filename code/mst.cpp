@@ -50,7 +50,7 @@ vector<pair<int, int>> prim(int br, int bc, vector<pair<int, int>> routers)
 		if (parent != -1)
 		{
 			addRoute(cables, routers[parent].first, routers[parent].second, 
-				routers[cur].first, routers[cur].first);
+				routers[cur].first, routers[cur].second);
 		}
 		for (int i = 0; i < routers.size(); ++i)
 		{
