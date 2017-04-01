@@ -41,7 +41,7 @@ int getrectanglesum(Input &input, int i1, int j1, int i2, int j2)	{
 	return getsum(input,i2,j2) - getsum(input,i2,j1-1) - getsum(input,i1-1,j2) + getsum(input,i1-1,j1-1);
 }
 
-// gives back a list of all acessible target and void cells
+// gives back a list of all reachable target and void cells
 vector<pair<int, int>> connectedcells(Input& input, pair<int, int>& cell) {
 	vector<pair<int,int>> cells;
 	int ci = cell.first;
@@ -59,5 +59,12 @@ vector<pair<int, int>> connectedcells(Input& input, pair<int, int>& cell) {
 				cells.push_back({i,j});
 		}
 	}
+	
+	cerr << "starting from: " << ci << ' ' << cj;
+	cerr << " can reach " << cells.size() << endl;
+	//for (auto i : cells)
+	//	cerr << i.first << ' ' << i.second << endl;
+	//cerr << endl;
+
 	return cells;
 }
