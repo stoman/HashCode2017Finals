@@ -5,9 +5,11 @@
 
 void runnaive(Input& input, vector<pair<int, int>>& routers, vector<pair<int, int>>& backbone) {
 	//place routers
+	cerr << "starting placerouters..." << endl;
 	vector<pair<int, int>> pqrouters = placerouters(input);
 
 	//binary search
+	cerr << "binary saearching number of routers..." << endl;
 	int lo = 1, hi = routers.size();
 	while(hi - lo > 1) {
 		int mid = (hi + lo) / 2;
@@ -29,4 +31,5 @@ void runnaive(Input& input, vector<pair<int, int>>& routers, vector<pair<int, in
 		routers.push_back(pqrouters[i]);
 	}
 	backbone = mst(input, routers);
+	cerr << "runnaive done!" << endl;
 }
