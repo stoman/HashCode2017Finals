@@ -43,14 +43,18 @@ int getrectanglesum(Input &input, int i1, int j1, int i2, int j2)	{
 
 // gives back a list of all reachable target and void cells
 vector<pair<int, int>> connectedcells(Input& input, pair<int, int>& cell) {
-	vector<pair<int,int>> cells;
 	int ci = cell.first;
 	int cj = cell.second;
+	static vector<vector<pair<int,int>>> allcells(input.w*input.h);
+	static vector<bool> was(input.w*input.h,false);
 	
 	// wall as initial cell should automatically return an empty vector
-	//if (input.grid[ci][cj] == '#')
-	//	return cells;
 	
+	if (was[ci*input.w+cj])
+		return allcells[ci*input.w+cj];
+	
+	was[ci*input.w+cj] = true;
+	vector<pair<int,int>> cells;
 	int rectanglesum = 0;
 	for (int i = max(0,ci-input.r); i <= min(input.h-1,ci+input.r); i++)	{
 		for (int j = max(0,cj-input.r); j <= min(input.w-1,cj+input.r); j++)	{
@@ -59,6 +63,7 @@ vector<pair<int, int>> connectedcells(Input& input, pair<int, int>& cell) {
 				cells.push_back({i,j});
 		}
 	}
+	allcells[ci*input.w+cj] = cells;
 	
 	//cerr << "starting from: " << ci << ' ' << cj;
 	//cerr << " can reach " << cells.size() << endl;
