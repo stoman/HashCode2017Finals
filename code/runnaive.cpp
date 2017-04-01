@@ -154,16 +154,21 @@ void runnaive(Input& input, vector<pair<int, int>>& routers, vector<pair<int, in
 					}
 					countcovered[cell.first][cell.second]--;
 				}
-				vector<pair<int, int>> newpositions = {
-					make_pair(pqrouters[i].first + 1, pqrouters[i].second),
-					make_pair(pqrouters[i].first - 1, pqrouters[i].second),
-					make_pair(pqrouters[i].first, pqrouters[i].second + 1),
-					make_pair(pqrouters[i].first, pqrouters[i].second - 1),
-					make_pair(pqrouters[i].first + 1, pqrouters[i].second + 1),
-					make_pair(pqrouters[i].first - 1, pqrouters[i].second + 1),
-					make_pair(pqrouters[i].first - 1, pqrouters[i].second - 1),
-					make_pair(pqrouters[i].first + 1, pqrouters[i].second - 1)
-				};
+				int r = 3;
+				vector<pair<int, int>> newpositions;
+				for (int k = -r; k < r; ++k)
+				{
+					for (int l = -r; l < r; ++l)
+					{
+						if (pqrouters[i].first + k >= 0 
+							&& pqrouters[i].first + k < input.h 
+							&& pqrouters[i].second + l >= 0 
+							&& pqrouters[i].second + l < input.w)
+						{
+							newpositions.push_back(make_pair(pqrouters[i].first + k, pqrouters[i].second + l));
+						}
+					}
+				}
 				int best = -1, bestscore = -1;
 				for(int j = 0; j < newpositions.size(); j++) {
 					pair<int, int> newpos = newpositions[j];
